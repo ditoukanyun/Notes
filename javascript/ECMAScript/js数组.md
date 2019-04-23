@@ -1,26 +1,54 @@
 
+
 ## pop()
-- pop()方法会从数组中删除最后一个元素,并返回它.
+- pop()方法会从数组中删除最后一个元素,并返回最后一个元素.
 ```javascript
- 
     const arrs = [1,2,3,4,5]
     const res = arrs.pop()
     console.log(res)   // 5
 ```
+
 ## push()
 - push()方法允许你向数组中添加一个或多个元素
+- push()会返回新增数组后新的长度
 ```javascript
     const arrs = [1,2,3,4,5]
-    const res = arrs.pop()
-    console.log(res)   // 5
-    arrs.push(6);
-    console.log(arrs) // [1, 2, 3, 4, 6]
+    let res = arrs.push(888);
+    console.log(arrs) // [1, 2, 3, 4, 5, 888]
+    console.log(res)  // 6 得到新的数组长度
 ```
+
 ## shift()
 - shift()方法会删除数组的第一个元素并返回它
+```javascript
+    const arrs = [1,2,3,4,5]
+    const res = arrs.shift()
+    console.log(res)   // 1
+```
 
 ## unshift()
 - unshift()方法允许向数组的开头添加一个或多个元素
+- 会将新增后的数组长度返回
+ ```javascript
+    const arrs = [1,2,3,4,5]
+    let res = arrs.unshift(888);
+    console.log(arrs) // [888, 1, 2, 3, 4, 5]
+    console.log(res)  // 6 得到新的数组长度
+```
+
+## 清空数组的几种方式
+- 1.如何清空数组
+```javascript
+    let arr = [1,2,3,4,5];
+    // 清空数组的三个方法；
+    // 第一种：直接将空数组赋值给数组
+    arr = [];
+    // 设置数组的长度为0
+    arr.length = 0;
+    // 利用splice
+    arr.splice(0, arr.length);
+    console.log(arr);
+```
 
 
 
@@ -35,15 +63,29 @@
 ```
 
 ## concat()
+- 数组与数组间的拼接不可以使用+加号进行拼接，如果使用加号进行拼接会将数组转换成字符串进行拼接
 - 使用concat()方法可以将两个或多个数据组合起来,返回一个新的数组
+- 注意点：不会修改原有的数组；
+- 该方法的代替方式可以使用ES6的解构来实现
 ```javascript
     const arr1 = [1,3]
     const arr2 = [2,4]
     const arr3 = [5,6]
+    // + 加号拼接数组
+    const str = arr1 + arr2;
+    console.log(str);  // 1,32,4
+    console.log(typeof str); // string
+
     // const res = arr1.concat(arr2)
     // console.log(res);  //[1, 3, 2, 4]
     const res = arr1.concat(arr2,arr3)
     console.log(res);  // [1, 3, 2, 4, 5, 6]
+
+    // 补充： 可以使用扩展运算符来拼接数组
+    // 解构数组中会将解构出来的元素放在新的数组中，返回给我们
+    let res1 = [...arr1, ...arr2, ...arr3];
+    console.log(res1);  //  [1, 3, 2, 4, 5, 6]
+    console.log(typeof res1) // obj
 
     // 自定义函数合并任意多个数组
     function concatAll(arr, ...arrays){
@@ -53,7 +95,7 @@
 ```
 
 ## forEach()
-- 当你想要对一个数组进行遍历操作时，可以使用forEach()方法，它接受一个函数作为参数。事实上它本身接受三个参数：(当前值、索引和数组)
+- 当你想要对一个数组进行遍历操作时，可以使用forEach()方法，它接受一个函数作为参数。事实上它本身接受三个参数：(当前值,索引,数组)
 
 ```javascript
     const arrs = [1,2,3,4,5]
@@ -68,16 +110,26 @@
 ```
 
 ## indexOf()  
-- indexOf作用: 返回数组中给定元素的第一个索引值. indexOf()也被用于检查元素是否存在arr
+- indexOf(检索值，开始查找的位置)
+- indexOf作用: 返回数组中给定元素的第一个索引值. indexOf()也被用于检查元素是否存在某一个元素
+- indexOf()方法从左到右开始查到，找到元素就停止查找
+- 注意点： 找到元素就会返回元素的对应位置，没有找到元素就返回-1
+
 ```javascript
-    const arrs = [1,2,3,4,5]
-    const index = arrs.indexOf(3);
+    let arrs = [1,2,3,4,5,3]
+    let index = arrs.indexOf(3);
     console.log(index);  // 2
+    index = arrs.indexOf(3,4);
+    console.log(index)  // 5
+     
 ```
-- 该方法使用较少
+## lastIndexOf()
+- 该方法和indexOf()方法使用和传参一样，但是查找方式是从右到左开始查找
+
 
 ## find()
 - find()方法就是会查找数组中的元素,
+- find()方法找到了就会返回找到的元素，如果找不到就返回undefined
 - find()和filter()相似,但是find()函数找到一个匹配值就会停止查找,而filter会继续查找
 ```javascript
     const arrs = [1,2,3,4,5,4,3,2,1]
@@ -141,9 +193,28 @@
 
 ## slice()
 - slice方法可以帮助我们提取数组的一部分
+- 返回一个新的数组，不会修改原数组
+- slice方法是包含开始索引不包含结束索引 [开始索引，结束索引)
+```javascript
+    let arr = [1,2,3,4,5];
+    let res = arr.slice(1,3);
+    console.log(res); // [2, 3]
+    console.log(arr); // [1, 2, 3, 4, 5]
+```
 
 ## splice()
-- splice()通常用于删除某个所引出的元素.
+- splice()通常用于添加或删除某个所引出的元素.
+- splice(开始位置（必需），删除数量（必需），item1,...item2(可选添加的项))
+```javascript
+
+let arr = [1,2,3,4,5];
+// arr.splice(1,3);
+// console.log(arr) // [1, 5]
+
+arr.splice(1,3,111,2222);
+console.log(arr) // [1, 111, 2222, 5]
+
+```
   
 
 ## some()
@@ -154,8 +225,26 @@
 ## every()
 - every()和some()类似,不同的是some()只要有一个元素符合条件就返回true,而every是所有元素都满足条件才返回true
 
+## toString()
+- 将数组转换成字符串
+  ```javascript
+     let arr = [1,2,3,4,5];
+     let str = arr.toString();
+     console.log(str)  // 1,2,3,4,5
+     console.log(typeof str) // string
+  ```
+
+
 ## join()
-- join()方法会将数组中插入特定的分隔符来创建一个新的字符串
+- join()方法没有传递参数，调用toString()方法
+- join()方法可以传递参数，把参数作为元素间的连接符号
+```javascript
+    let arr = [1,2,3,4,5];
+    let str = arr.join("-");
+    console.log(str)  // 1-2-3-4-5
+    console.log(typeof str) // string
+
+```
 
 ## isArray()
 - isArray()方法判断传递的值是否为数组,是数组返回true,否则返回false
@@ -179,8 +268,8 @@
 - 对于数字,sort()接受了一个比较函数,并传递两个参数
 - 参数分别为a,b;然后对这两个元素进行比较,并且返回一个数字
 - 返回规则:
-  - 如果返回的值是一个负数,则表示a排在b之前
-  - 如果返回的值是一个正数,则表示a排在b之后
+  - 如果返回的值是一个负数,则表示a排在b之前（升序）
+  - 如果返回的值是一个正数,则表示a排在b之后（降序）
   - 如果返回的值是0,则没有变化
 
 ```javascript
@@ -193,6 +282,7 @@
   
 ## reverse()
 - reverse()方法就是将数组反转
+- 注意点： 该方法会修改原有的数组
 ```javascript
     const nums = [3,72,33,42,5,8]
     nums.reverse()
